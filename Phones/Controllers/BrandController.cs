@@ -7,18 +7,18 @@ namespace Phones.Controllers
     [Route("api/brand")]
     public class BrandController : ControllerBase
     {
-        private readonly BrandService _brandService;
+        private readonly IBrandService _brandService;
 
-        public BrandController(BrandService brandService)
+        public BrandController(IBrandService brandService)
         {
             _brandService = brandService;
         }
         [HttpGet]
         public ActionResult<IEnumerable<Brand>> GetAll()
         {
-            var brandsDtos = _brandService.GetAll();
+            var brands = _brandService.GetAll();
 
-            return Ok(brandsDtos);
+            return Ok(brands);
         }
     }
 }

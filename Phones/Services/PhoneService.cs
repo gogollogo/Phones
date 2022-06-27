@@ -14,7 +14,7 @@ namespace Phones.Services
         }
         ActionResult<IEnumerable<Phone>> IPhoneService.GetAll()
         {
-            var result = _dbContext.Phones.Include(x => x.Brand).ToList();
+            var result = _dbContext.Phones.ToList();
 
             return result;
         }

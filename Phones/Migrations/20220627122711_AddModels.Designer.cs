@@ -11,7 +11,7 @@ using Phones.Entities;
 namespace Phones.Migrations
 {
     [DbContext(typeof(PhonesDbContext))]
-    [Migration("20220627112922_AddModels")]
+    [Migration("20220627122711_AddModels")]
     partial class AddModels
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

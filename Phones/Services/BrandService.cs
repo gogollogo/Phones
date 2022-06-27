@@ -12,11 +12,13 @@ namespace Phones.Services
         {
             _dbContext = dbContext;
         }
-        public ActionResult<IEnumerable<Brand>> GetAll()
+        ActionResult<IEnumerable<Brand>> IBrandService.GetAll()
         {
             var result = _dbContext.Brands.ToList();
 
             return result;
         }
+
+       
     }
 }

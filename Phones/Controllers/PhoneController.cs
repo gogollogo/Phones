@@ -16,9 +16,9 @@ namespace Phones.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<Brand>> GetAll()
         {
-            var brandsDtos = _phoneService.GetAll();
+            var phones = _phoneService.GetAll();
 
-            return Ok(brandsDtos);
+            return Ok(phones);
         }
     }
 }

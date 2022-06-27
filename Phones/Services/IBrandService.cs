@@ -1,10 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Phones.Entities;
 
-namespace Phones.Services
+namespace Phones.Services;
+
+public interface IBrandService
 {
-    public interface IBrandService
-    {
-        ActionResult<IEnumerable<Brand>> GetAll();
-    }
+    ActionResult<IEnumerable<Brand>> GetAll();
 }
