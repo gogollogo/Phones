@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Phones.Entities;
+using Phones.Models;
 using Phones.Services;
 
 namespace Phones.Controllers
@@ -14,7 +15,7 @@ namespace Phones.Controllers
             _brandService = brandService;
         }
         [HttpGet]
-        public ActionResult<IEnumerable<Brand>> GetAll()
+        public ActionResult<IEnumerable<BrandDto>> GetAll()
         {
             var brands = _brandService.GetAll();
 

@@ -1,3 +1,4 @@
+using System.Reflection;
 using Phones;
 using Phones.Entities;
 using Phones.Services;
@@ -12,6 +13,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<PhonesDbContext>();
 builder.Services.AddScoped<PhoneSeeder>();
+builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 builder.Services.AddScoped<IPhoneService, PhoneService>();
 builder.Services.AddScoped<IBrandService, BrandService>();
 

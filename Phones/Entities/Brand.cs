@@ -7,5 +7,5 @@ public class Brand
     [Key]
     public int Id { get; set; }
     public string Name { get; set; }
-    public virtual Phone Phones { get; set; }
+    
 }
