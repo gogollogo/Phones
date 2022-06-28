@@ -10,9 +10,9 @@ public class PhonesMappingProfile :Profile
     {
         CreateMap<Phone, PhoneDto>()
             .ForMember(m => m.BrandName, n => n.MapFrom(b => b.Brand.Name));
-
         CreateMap<Brand, BrandDto>();
 
         CreateMap<CreatePhoneDto, Phone>();
+        CreateMap<CreateBrandDto, Brand>();
     }     
 }
