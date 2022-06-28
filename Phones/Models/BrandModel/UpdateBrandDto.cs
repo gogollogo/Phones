@@ -1,4 +1,4 @@
-﻿namespace Phones.Models
+﻿namespace Phones.Models.BrandModel
 {
     public class UpdateBrandDto
     {

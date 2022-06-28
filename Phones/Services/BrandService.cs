@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Phones.Entities;
-using Phones.Models;
+using Phones.Models.BrandModel;
 
 namespace Phones.Services
 {

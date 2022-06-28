@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Phones.Models
+namespace Phones.Models.PhoneModel
 {
     public class UpdatePhoneDto
     {

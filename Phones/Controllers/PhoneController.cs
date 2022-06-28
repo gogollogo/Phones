@@ -1,11 +1,13 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Phones.Entities;
-using Phones.Models;
+using Phones.Models.PhoneModel;
 using Phones.Services;
 
 namespace Phones.Controllers
 {
+    [ApiController]
     [Route("api/phone")]
     public class PhoneController : ControllerBase
     {
@@ -18,9 +20,9 @@ namespace Phones.Controllers
            
         }
         [HttpGet]
-        public ActionResult<IEnumerable<PhoneDto>> GetAll()
+        public ActionResult<IEnumerable<PhoneDto>> GetAll([FromQuery] PhoneQuery query)
         {
-            var phones = _phoneService.GetAll();
+            var phones = _phoneService.GetAll(query);
 
             return Ok(phones);
         }
@@ -48,6 +50,14 @@ namespace Phones.Controllers
         {
             _phoneService.DeletePhone(id);
             return NoContent();
+        }
+        [HttpPatch("{id}")]
+        public ActionResult PatchUpdate([FromBody]JsonPatchDocument phoneUpdateDto, int id)
+        {
+            _phoneService.PatchUpdatePhone(id, phoneUpdateDto);
+
+            return Ok();
+
         }
     }
 }

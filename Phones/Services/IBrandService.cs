@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Phones.Entities;
-using Phones.Models;
+using Phones.Models.BrandModel;
 
 namespace Phones.Services;
 

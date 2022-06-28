@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using Phones.Entities;
 
-namespace Phones.Models
+namespace Phones.Models.PhoneModel
 {
     public class CreatePhoneDto
     {

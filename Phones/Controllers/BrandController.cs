@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Phones.Entities;
-using Phones.Models;
+using Phones.Models.BrandModel;
 using Phones.Services;
 
 namespace Phones.Controllers
 {
+    [ApiController]
     [Route("api/brand")]
     public class BrandController : ControllerBase
     {

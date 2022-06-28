@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Phones.Entities;
-using Phones.Models;
+using Phones.Models.BrandModel;
+using Phones.Models.PhoneModel;
 
 namespace Phones;
 

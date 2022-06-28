@@ -1,7 +1,11 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
+﻿using System.Web.Mvc;
+using AutoMapper;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.EntityFrameworkCore;
 using Phones.Entities;
+using Microsoft.AspNetCore.Mvc;
+using System.Linq.Expressions;
+using Phones.Models.PhoneModel;
 using Phones.Models;
 
 namespace Phones.Services
@@ -16,6 +20,40 @@ namespace Phones.Services
             _dbContext = dbContext;
             _mapper = mapper;
         }
+        PaginationData<PhoneDto> IPhoneService.GetAll(PhoneQuery query)
+        {
+            var baseQuery = _dbContext
+                .Phones
+                .Include(p => p.Brand)
+                .Where(x=>query.SearchPhrase == null || (x.Name.ToLower().Contains(query.SearchPhrase.ToLower())));
+
+            if (!string.IsNullOrEmpty(query.SortBy))
+            {
+                var columsSelectors = new Dictionary<string, Expression<Func<Phone, object>>>
+                {
+                    {nameof(Phone.Name), r=>r.Name },
+                    {nameof(Phone.Price), r=>r.Price },
+                };
+
+                var selectedColumn = columsSelectors[query.SortBy];
+
+                baseQuery = query.SortDirection == SortDirection.ASC
+                    ? baseQuery.OrderBy(selectedColumn)
+                    : baseQuery.OrderByDescending(selectedColumn);
+            }
+
+
+            var phones = baseQuery
+                .Skip(query.PageSize * (query.PageNumber - 1))
+                .Take(query.PageSize)
+                .ToList();
+            var totalItemsCount = baseQuery.Count();
+
+            var phonesDtos = _mapper.Map<List<PhoneDto>>(phones);
+
+            var result = new PaginationData<PhoneDto>(phonesDtos, totalItemsCount, query.PageSize, query.PageNumber);
+            return result;
+        }
 
         public int CreatePhone(CreatePhoneDto dto)
         {
@@ -26,7 +64,6 @@ namespace Phones.Services
 
             return phone.Id;
         }
-
         public void DeletePhone(int id)
         {
             var phone = _dbContext
@@ -36,7 +73,6 @@ namespace Phones.Services
             _dbContext.Phones.Remove(phone);
             _dbContext.SaveChanges();
         }
-
         public PhoneDto GetById(int id)
         {
             var phone = _dbContext.Phones.FirstOrDefault(x => x.Id == id);
@@ -45,7 +81,6 @@ namespace Phones.Services
             return result;
 
         }
-
         public void UpdatePhone(int id, UpdatePhoneDto dto)
         {
             var phone = _dbContext
@@ -54,19 +89,18 @@ namespace Phones.Services
 
             phone.Description = dto.Description;
             phone.Price = dto.Price;
-
             _dbContext.SaveChanges();
+
         }
-
-        ActionResult<IEnumerable<PhoneDto>> IPhoneService.GetAll()
+        public void PatchUpdatePhone(int id, JsonPatchDocument phoneUpdateDto)
         {
-            var phones = _dbContext
-                .Phones
-                .Include(p=>p.Brand)
-                .ToList();
-            var phonesDtos = _mapper.Map<List<PhoneDto>>(phones);
-
-            return phonesDtos;
+            var phone = _dbContext.Phones.FirstOrDefault(x=>x.Id == id);
+            if(phone != null)
+            {
+                phoneUpdateDto.ApplyTo(phone);
+                _dbContext.SaveChanges();
+            }
         }
     }
 }
+      
