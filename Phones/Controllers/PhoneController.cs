@@ -26,18 +26,18 @@ namespace Phones.Controllers
 
             return Ok(phones);
         }
-        [HttpPost]
-        public ActionResult CreatePhone([FromBody] CreatePhoneDto dto)
-        {
-            var id = _phoneService.CreatePhone(dto);
-            return Created($"/api/phone/{id}", null);
-        }
         [HttpGet("{id}")]
         public ActionResult<PhoneDto> Get([FromRoute] int id)
         {
             var phone = _phoneService.GetById(id);
 
             return Ok(phone);
+        }
+        [HttpPost]
+        public ActionResult CreatePhone([FromBody] CreatePhoneDto dto)
+        {
+            var id = _phoneService.CreatePhone(dto);
+            return Created($"/api/phone/{id}", null);
         }
         [HttpPut("{id}")]
         public ActionResult Update([FromBody] UpdatePhoneDto dto, [FromRoute] int id)

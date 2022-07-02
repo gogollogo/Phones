@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Phones.Entities;
+using Phones.Exceptions;
 using Phones.Models.BrandModel;
 
 namespace Phones.Services
@@ -32,7 +33,8 @@ namespace Phones.Services
             var brand = _dbContext
                  .Brands
                  .FirstOrDefault(r => r.Id == id);
-
+            if (brand is null)
+                throw new NotFoundException("Brand not found");
             _dbContext.Brands.Remove(brand);
             _dbContext.SaveChanges();
         }
@@ -40,7 +42,8 @@ namespace Phones.Services
         public BrandDto GetById(int id)
         {
             var brand = _dbContext.Brands.FirstOrDefault(x => x.Id == id);
-
+            if (brand is null)
+                throw new NotFoundException("Brand not found");
             var result = _mapper.Map<BrandDto>(brand);
             return result;
         }
@@ -50,7 +53,8 @@ namespace Phones.Services
             var brand = _dbContext
                   .Brands
                   .FirstOrDefault(r => r.Id == id);
-
+            if (brand is null)
+                throw new NotFoundException("Brand not found");
             brand.Name = dto.Name;
             
             _dbContext.SaveChanges();

@@ -1,6 +1,7 @@
 using System.Reflection;
 using Phones;
 using Phones.Entities;
+using Phones.Middleware;
 using Phones.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,8 +15,10 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<PhonesDbContext>();
 builder.Services.AddScoped<PhoneSeeder>();
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
+builder.Services.AddScoped<ErrorHandlingMiddleware>();
 builder.Services.AddScoped<IPhoneService, PhoneService>();
 builder.Services.AddScoped<IBrandService, BrandService>();
+builder.Services.AddHttpContextAccessor();
 
 
 var app = builder.Build();
@@ -33,7 +36,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseMiddleware<ErrorHandlingMiddleware>();
 app.UseHttpsRedirection();
 
 app.UseAuthorization();

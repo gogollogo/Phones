@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Linq.Expressions;
 using Phones.Models.PhoneModel;
 using Phones.Models;
+using Phones.Exceptions;
 
 namespace Phones.Services
 {
@@ -70,13 +71,17 @@ namespace Phones.Services
                   .Phones
                   .FirstOrDefault(r => r.Id == id);
 
+            if (phone is null)
+                throw new NotFoundException("Phone not found");
+
             _dbContext.Phones.Remove(phone);
             _dbContext.SaveChanges();
         }
         public PhoneDto GetById(int id)
         {
             var phone = _dbContext.Phones.FirstOrDefault(x => x.Id == id);
-
+            if (phone is null)
+                throw new NotFoundException("Phone not found");
             var result = _mapper.Map<PhoneDto>(phone);
             return result;
 
@@ -87,6 +92,9 @@ namespace Phones.Services
                    .Phones
                    .FirstOrDefault(r => r.Id == id);
 
+            if (phone is null)
+                throw new NotFoundException("Phone not found");
+
             phone.Description = dto.Description;
             phone.Price = dto.Price;
             _dbContext.SaveChanges();
@@ -95,11 +103,13 @@ namespace Phones.Services
         public void PatchUpdatePhone(int id, JsonPatchDocument phoneUpdateDto)
         {
             var phone = _dbContext.Phones.FirstOrDefault(x=>x.Id == id);
-            if(phone != null)
-            {
+
+            if (phone is null)
+                throw new NotFoundException("Phone not found");
+
                 phoneUpdateDto.ApplyTo(phone);
                 _dbContext.SaveChanges();
-            }
+            
         }
     }
 }
