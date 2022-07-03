@@ -20,6 +20,12 @@ public class PhoneSeeder
                 _dbContext.Phones.AddRange(phones);
                 _dbContext.SaveChanges();
             }
+            if(!_dbContext.Roles.Any())
+            {
+                var roles = GetRoles();
+                _dbContext.Roles.AddRange(roles);
+                _dbContext.SaveChanges();
+            }
         }
     }
 
@@ -48,5 +54,22 @@ public class PhoneSeeder
 
          };
         return phones;
+    }
+    private IEnumerable<Role> GetRoles()
+    {
+        var roles = new List<Role>()
+        {
+            new Role
+            {
+                Name = "SimpleUser",
+              
+            },
+            new Role
+            {
+                Name = "Admin",
+            }
+
+         };
+        return roles;
     }
 }

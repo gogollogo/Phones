@@ -8,6 +8,8 @@ public class PhonesDbContext : DbContext
             "Server=.\\SQLEXPRESS;Database=PhonesDb;Trusted_Connection=True;";
     public DbSet<Phone> Phones { get; set; }
     public DbSet<Brand> Brands { get; set; }
+    public DbSet<Role> Roles { get; set; }
+    public DbSet<User> Users { get; set; }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.UseSqlServer(_connectionString);
